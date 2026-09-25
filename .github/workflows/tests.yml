@@ -2,9 +2,9 @@ name: Tests
 
 on:
   push:
-    branches: [main, master]
+    branches: [ main, master ]
   pull_request:
-    branches: [main, master]
+    branches: [ main, master ]
 
 jobs:
   test:
@@ -25,3 +25,12 @@ jobs:
 
       - name: Lancer les tests
         run: npm test
+
+      - name: Builder les userscripts
+        run: npm run build
+
+      - name: Uploader les artéfacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: userscripts
+          path: dist/*.user.js
