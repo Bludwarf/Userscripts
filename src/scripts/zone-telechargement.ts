@@ -48,8 +48,10 @@ export function insertMatchingList(downloadedFiles) {
     const h1 = getH1();
 
     const title = getTitle();
+    console.log(`Titre de la page courante : ${title}`);
+    console.log(`Fichiers déjà téléchargés`, downloadedFiles);
     const matchingDownloadedFiles = matchDownloadedFiles(title, downloadedFiles)
-    console.log("matchingDownloadedFiles", matchingDownloadedFiles);
+    console.log(`Fichiers déjà téléchargés correspondant au titre`, matchingDownloadedFiles);
 
     const matchingDownloadedFilesHtml = matchingDownloadedFiles.map(file => `<li>${file}</li>`).join('\n');
     const listHtml = matchingDownloadedFilesHtml ? `<h2>Déjà téléchargé :</h2><ul>${matchingDownloadedFilesHtml}</ul>` : `<h2>Pas déjà téléchargé</h2>`;
