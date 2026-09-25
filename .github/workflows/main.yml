@@ -1,4 +1,4 @@
-name: Tests
+name: Main
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ main, master ]
 
 jobs:
-  test:
+  test-and-build:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,8 +26,14 @@ jobs:
       - name: Lancer les tests
         run: npm test
 
-      - name: Builder les userscripts
+      - name: Générer la version (date du jour)
+        id: version
+        run: echo "value=$(date -u +'%Y-%m-%d')" >> "$GITHUB_OUTPUT"
+
+      - name: Builder les userscripts avec la version du jour
         run: npm run build
+        env:
+          VERSION: ${{ steps.version.outputs.value }}
 
       - name: Créer la Release avec les .user.js en assets bruts
         uses: softprops/action-gh-release@v2
