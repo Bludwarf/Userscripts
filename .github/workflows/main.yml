@@ -1,0 +1,46 @@
+name: Main
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write # Pour l'étape qui crée la release
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Lancer les tests
+        run: npm test
+
+      - name: Générer la version (date du jour)
+        id: version
+        run: echo "value=$(date -u +'%Y.%m.%d')" >> "$GITHUB_OUTPUT"
+
+      - name: Builder les userscripts avec la version du jour
+        run: npm run build
+        env:
+          VERSION: ${{ steps.version.outputs.value }}
+
+      - name: Créer la Release avec les .user.js en assets bruts
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.value }}
+          files: dist/*.user.js
+          generate_release_notes: true

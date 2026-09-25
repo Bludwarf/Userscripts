@@ -1,15 +1,9 @@
 /**
  * @jest-environment jsdom
  */
-"use strict";
-
-const {
-    getTitle,
-    matchDownloadedFiles,
-    insertMatchingList,
-    parseDownloadFiles
-} = require('../scripts/zone-telechargement.user');
-const {loadPage} = require("./utils/test-utils");
+import {getTitle, insertMatchingList, matchDownloadedFiles, parseDownloadFiles} from "./zone-telechargement";
+import {loadPage} from "../lib/test-utils";
+import {describe, expect, test} from "vitest";
 
 function loadZTPage(page) {
     loadPage('zone-telechargement', page);
@@ -44,19 +38,19 @@ describe('Avatar : De feu et de cendres', () => {
 
         test(`Aucun match sur les dossiers`, () => {
             expect(matchDownloadedFiles(title, [
-                `Films\\Autres\\Autre.film.mkv`
+                `Films\\Autres\\Autre.film.mkv`,
             ])).toEqual([]);
         });
 
         test(`Aucun match dans le nom`, () => {
             expect(matchDownloadedFiles(title, [
-                `Films\\SF\\Avatar\\Autre.film.mkv`
+                `Films\\SF\\Avatar\\Autre.film.mkv`,
             ])).toEqual([]);
         });
 
         test(`Match sur "and"`, () => {
             expect(matchDownloadedFiles(title, [
-                `Films\\SF\\Avatar\\Avatar.Fire.and.Ash.mkv`
+                `Films\\SF\\Avatar\\Avatar.Fire.and.Ash.mkv`,
             ])).toEqual([
                 `Films\\SF\\Avatar\\Avatar.Fire.and.Ash.mkv`,
             ]);
@@ -64,7 +58,7 @@ describe('Avatar : De feu et de cendres', () => {
 
         test(`Match sur casse différente`, () => {
             expect(matchDownloadedFiles(title, [
-                `Films\\SF\\Avatar\\avatar.mp4`
+                `Films\\SF\\Avatar\\avatar.mp4`,
             ])).toEqual([
                 `Films\\SF\\Avatar\\avatar.mp4`,
             ]);
@@ -72,7 +66,7 @@ describe('Avatar : De feu et de cendres', () => {
 
         test(`Match sur l'extension => ignoré`, () => {
             expect(matchDownloadedFiles(title, [
-                `Films\\SF\\Avatar\\Bludwarf.avatar`
+                `Films\\SF\\Avatar\\Bludwarf.avatar`,
             ])).toEqual([]);
         });
 

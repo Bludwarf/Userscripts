@@ -1,0 +1,13 @@
+// Fichier utilisé uniquement par l'IDE
+{
+    "compilerOptions": {
+        "target": "es2020",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "strict": false,
+        "noEmit": true
+    },
+    "include": [
+        "src/**/*.ts"
+    ]
+}
