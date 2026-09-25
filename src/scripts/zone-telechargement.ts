@@ -20,6 +20,7 @@ export function getTitle(h1 = getH1()) {
 
 function lowerAndSplit(filename) {
     return filename
+        // TODO "Vaiana, la légende du bout du monde" (actuel => "gende") : il faudrait ignorer les accents
         .toLowerCase()
         .replace(/-/g, '')
         .split(/[^A-Za-z]/)
@@ -62,6 +63,8 @@ export function insertMatchingList(downloadedFiles) {
     console.log(`Fichiers déjà téléchargés`, downloadedFiles);
     const matchingDownloadedFiles = matchDownloadedFiles(title, downloadedFiles)
     console.log(`Fichiers déjà téléchargés correspondant au titre`, matchingDownloadedFiles);
+
+    // TODO en plus du titre, on devrait aussi matcher sur le titre original, si existant (exemple "Projet dernière chance" : "Titre original : Project Hail Mary")
 
     const matchingDownloadedFilesHtml = matchingDownloadedFiles.map(file => `<li>${file}</li>`).join('\n');
     const listHtml = matchingDownloadedFilesHtml ? `<h2>Déjà téléchargé :</h2><ul>${matchingDownloadedFilesHtml}</ul>` : `<h2>Pas déjà téléchargé</h2>`;
