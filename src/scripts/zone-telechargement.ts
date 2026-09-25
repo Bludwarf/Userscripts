@@ -69,6 +69,7 @@ export function insertMatchingList(downloadedFiles) {
 // Auto-exécution uniquement en environnement réel (navigateur/Tampermonkey)
 // `module` n'existe pas dans le bundle IIFE final, mais existe sous Jest (CommonJS)
 if (typeof module === 'undefined') {
+    // TODO FIXME ce n'est pas suffisant : quand on fait un prompt, les sauts de ligne disparaissent
     const downloadedFilesRawList = getOrPromptString('downloadedFilesRawList', `Liste des fichiers déjà téléchargés`, () => new Error(`Liste vide`));
     const downloadedFiles = parseDownloadFiles(downloadedFilesRawList);
     insertMatchingList(downloadedFiles);
