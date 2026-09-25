@@ -1,3 +1,11 @@
+// ==UserScript==
+// @description  Ajoute la liste des fichiers déjà téléchargés
+// @match        https://www.zone-telechargement.press/*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=zone-telechargement.press
+// @grant        GM_getValue
+// @grant        GM_setValue
+// ==/UserScript==
+
 import {getOrPromptString} from "../lib/window-utils";
 
 function getH1() {
@@ -25,7 +33,7 @@ function match(title, downloadedFile) {
     const downloadedFileParts = lowerAndSplit(downloadedFileName);
     console.log('downloadedFileParts', downloadedFileParts);
     return downloadedFileParts.some(downloadedFilePart =>
-        titleParts.some(titlePart => titlePart === downloadedFilePart) // TODO renvoyer de l'HTML avec les mots clés qui matchent surlignés en jaune
+        titleParts.some(titlePart => titlePart === downloadedFilePart), // TODO renvoyer de l'HTML avec les mots clés qui matchent surlignés en jaune
     );
 }
 
