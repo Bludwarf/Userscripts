@@ -10,6 +10,9 @@ jobs:
   test-and-build:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write # Pour l'étape qui crée la release
+
     steps:
       - name: Checkout du code
         uses: actions/checkout@v4
