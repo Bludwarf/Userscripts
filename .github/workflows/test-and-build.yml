@@ -29,8 +29,8 @@ jobs:
       - name: Builder les userscripts
         run: npm run build
 
-      - name: Uploader les artéfacts
-        uses: actions/upload-artifact@v4
+      - name: Créer la Release avec les .user.js en assets bruts
+        uses: softprops/action-gh-release@v2
         with:
-          name: userscripts
-          path: dist/*.user.js
+          files: dist/*.user.js
+          generate_release_notes: true

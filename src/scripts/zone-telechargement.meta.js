@@ -1,12 +1,14 @@
 module.exports = `// ==UserScript==
 // @name         Liste pour Zone Telechargement
-// @namespace    http://tampermonkey.net/
-// @version      2026-09-25
+// @namespace    https://github.com/Bludwarf/Userscripts
+// @version      {{VERSION}}
 // @description  Ajoute la liste des fichiers déjà téléchargés
-// @author       You
+// @author       bludwarf@gmail.com
 // @match        https://www.zone-telechargement.press/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=zone-telechargement.press
 // @grant        GM_getValue
 // @grant        GM_setValue
+// @downloadURL  https://github.com/Bludwarf/Userscripts/releases/latest/download/zone-telechargement.user.js
+// @updateURL    https://github.com/Bludwarf/Userscripts/releases/latest/download/zone-telechargement.user.js
 // ==/UserScript==
 `;

@@ -2,6 +2,16 @@ const esbuild = require('esbuild');
 const fs = require('fs');
 const path = require('path');
 
+function getVersion() {
+    const now = new Date();
+    const yyyy = now.getUTCFullYear();
+    const mm = String(now.getUTCMonth() + 1).padStart(2, '0');
+    const dd = String(now.getUTCDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+}
+
+const version = getVersion();
+
 // Détection automatique des points d'entrée dans src/scripts/
 const entryDir = 'src/scripts';
 const entries = fs
@@ -9,8 +19,9 @@ const entries = fs
     .filter((f) => f.endsWith('.ts'))
     .map((f) => path.basename(f, '.ts'));
 
-function requireBanner(name) {
-    return require(`./${entryDir}/${name}.meta.js`);
+function renderBanner(name) {
+    const meta = require(path.resolve(`./${entryDir}/${name}.meta.js`));
+    return meta.replace('{{VERSION}}', version);
 }
 
 async function buildAll() {
@@ -21,7 +32,7 @@ async function buildAll() {
             outfile: `dist/${name}.user.js`,
             format: 'iife',
             target: 'es2020',
-            banner: {js: requireBanner(name)},
+            banner: {js: renderBanner(name)},
             minify: false,
             sourcemap: false, // pas utile pour un fichier standalone final
         });
@@ -41,7 +52,7 @@ async function main() {
                     outfile: `dist/${name}.user.js`,
                     format: 'iife',
                     target: 'es2020',
-                    banner: {js: requireBanner(name)},
+                    banner: {js: renderBanner(name)},
                 })
             )
         );
