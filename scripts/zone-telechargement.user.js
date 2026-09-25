@@ -1,23 +1,17 @@
 // ==UserScript==
 // @name         Liste pour Zone Telechargement
 // @namespace    http://tampermonkey.net/
-// @version      2026-09-24
+// @version      2026-09-25
 // @description  Ajoute la liste des fichiers déjà téléchargés
 // @author       You
 // @match        https://www.zone-telechargement.press/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=zone-telechargement.press
-// @grant        none
+// @grant        GM_getValue
+// @grant        GM_setValue
 // ==/UserScript==
 
 (function() {
     'use strict';
-
-    const downloadedFilesRawList = `
-        Films\\Action\\Mission.Impossible.3..avi
-        Films\\SF\\Avatar\\Avatar - MULTi HDLight 1080p TRUEFRENCH-Wawacity.Center.mkv
-        Films\\SF\\Avatar\\avatar2.mp4
-        Films\\SF\\Avatar\\Avatar.Fire.and.Ash.2025.MULTi.CA.1080p.WEB.H264-SUPPLY-Wawacity.pizza.mkv
-        `;
 
     function getH1() {
         const h1List = document.getElementsByTagName('h1');
@@ -25,6 +19,28 @@
             throw new Error('Aucun titre trouvé');
         }
         return h1List[0];
+    }
+
+    // TODO faire une lib modulaire (avec TypeScript et pas d'import en live comme avec les UserScript DSN)
+    /**
+     * @param {string} name
+     * @param {string} message
+     * @param {() => Error} errorProvider
+     * @return {unknown|string}
+     */
+    function getOrPrompt(name, message, errorProvider) {
+        const storedValue = GM_getValue(name);
+        if (storedValue) {
+            return storedValue;
+        }
+
+        const value = prompt(message);
+        if (!value) {
+            throw errorProvider();
+        }
+
+        GM_setValue(name, value)
+        return value;
     }
 
     function getTitle(h1 = getH1()) {
@@ -76,6 +92,7 @@
     }
 
     if (typeof module === 'undefined') {
+        const downloadedFilesRawList = getOrPrompt('downloadedFilesRawList', `Liste des fichiers déjà téléchargés`, () => new Error(`Liste vide`));
         const downloadedFiles = parseDownloadFiles(downloadedFilesRawList);
         insertMatchingList(downloadedFiles);
     } else {
