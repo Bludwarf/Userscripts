@@ -38,5 +38,6 @@ jobs:
       - name: Créer la Release avec les .user.js en assets bruts
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ steps.version.outputs.value }}
           files: dist/*.user.js
           generate_release_notes: true
