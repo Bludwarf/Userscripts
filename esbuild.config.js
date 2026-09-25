@@ -9,8 +9,8 @@ const globalVersion = process.env.VERSION || new Date().toISOString().slice(0, 1
 const entryDir = 'src/scripts';
 const entries = fs
     .readdirSync(entryDir)
-    .filter((f) => f.endsWith('.user.ts'))
-    .map((f) => path.basename(f, '.user.ts'));
+    .filter((f) => f.endsWith('.ts'))
+    .map((f) => path.basename(f, '.ts'));
 
 const HEADER_REGEX = /\/\/ ==UserScript==[\s\S]*?\/\/ ==\/UserScript==/;
 const NEW_LINE_REGEX = /\r?\n/;
@@ -26,7 +26,7 @@ const HEADER_LINE_REGEX = /\/\/ @(\S+)\s+(.+)/;
  * @property {string[]} grant
  */
 function renderBanner(name) {
-    const filePath = `${entryDir}/${name}.user.ts`;
+    const filePath = `${entryDir}/${name}.ts`;
     const source = fs.readFileSync(filePath, 'utf8');
     const match = source.match(HEADER_REGEX);
     if (!match) {
@@ -71,7 +71,7 @@ function renderBanner(name) {
 async function buildAll() {
     for (const name of entries) {
         await esbuild.build({
-            entryPoints: [`${entryDir}/${name}.user.ts`],
+            entryPoints: [`${entryDir}/${name}.ts`],
             bundle: true,
             outfile: `dist/${name}.user.js`,
             format: 'iife',
@@ -91,7 +91,7 @@ async function main() {
         const contexts = await Promise.all(
             entries.map((name) =>
                 esbuild.context({
-                    entryPoints: [`${entryDir}/${name}.user.ts`],
+                    entryPoints: [`${entryDir}/${name}.ts`],
                     bundle: true,
                     outfile: `dist/${name}.user.js`,
                     format: 'iife',
