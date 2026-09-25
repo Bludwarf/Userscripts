@@ -74,6 +74,18 @@ describe('Avatar : De feu et de cendres', () => {
             ])).toEqual([]);
         });
 
+        test(`Matcher sur la fusion des mots entre tirets`, () => {
+            expect(matchDownloadedFiles(`X-Men : Dark Phoenix`, [
+                `Avatar.The.Way.Of.Water.2022.Multi.Truefrench.1080P.hdlight.Ddp.5.1.Atmos.X264-Wawacity.Tools.mkv`
+            ])).toEqual([]);
+        });
+
+        test(`Matcher sur des mots de plus de 3 lettres`, () => {
+            expect(matchDownloadedFiles(`Vaiana, la légende du bout du monde`, [
+                `Clips/Français/Barbara - L'aigle noir.avi`
+            ])).toEqual([]);
+        });
+
     });
 
     describe('insertMatchingList', () => {
