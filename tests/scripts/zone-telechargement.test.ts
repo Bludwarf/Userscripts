@@ -1,15 +1,13 @@
 /**
  * @jest-environment jsdom
  */
-"use strict";
-
-const {
+import {
     getTitle,
-    matchDownloadedFiles,
     insertMatchingList,
-    parseDownloadFiles
-} = require('../scripts/zone-telechargement.user');
-const {loadPage} = require("./utils/test-utils");
+    matchDownloadedFiles,
+    parseDownloadFiles,
+} from "../../src/scripts/zone-telechargement";
+import {loadPage} from "../utils/test-utils";
 
 function loadZTPage(page) {
     loadPage('zone-telechargement', page);

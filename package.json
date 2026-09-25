@@ -1,11 +1,17 @@
 {
     "scripts": {
-        "test": "jest --coverage"
+        "test": "jest --coverage",
+        "build": "node esbuild.config.js",
+        "build:watch": "node esbuild.config.js --watch",
+        "typecheck": "tsc --noEmit"
     },
     "devDependencies": {
+        "@types/jest": "^30.0.0",
         "@types/tampermonkey": "^5.5.0",
-        "jest": "^30.5.2",
+        "esbuild": "^0.28.2",
         "jest-environment-jsdom": "^30.5.2",
-        "jest-junit": "^17.0.0"
+        "jest-junit": "^17.0.0",
+        "ts-jest": "^29.4.14",
+        "typescript": "^5.9.3"
     }
 }
