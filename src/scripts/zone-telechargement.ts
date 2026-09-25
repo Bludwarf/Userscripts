@@ -26,9 +26,9 @@ function lowerAndSplit(filename) {
         .split(/[^A-Za-z]/).filter(part => !!part);
 }
 
-function match(title, downloadedFile) {
+function match(title, downloadedFile: string) {
     const titleParts = lowerAndSplit(title);
-    let downloadedFileName = downloadedFile.substring(downloadedFile.lastIndexOf('\\'))
+    let downloadedFileName = downloadedFile.substring(downloadedFile.lastIndexOf('/'))
     downloadedFileName = downloadedFileName.substring(0, downloadedFileName.lastIndexOf('.'))
     const downloadedFileParts = lowerAndSplit(downloadedFileName);
     console.log('downloadedFileParts', downloadedFileParts);
@@ -42,8 +42,8 @@ function match(title, downloadedFile) {
  * @return {string[]}
  */
 export function parseDownloadFiles(downloadedFilesRawList) {
-    return downloadedFilesRawList
-        .split(/\r?\n/)
+    // JSON.parse() ne semble pas disponible sur le site
+    return (eval(downloadedFilesRawList) as string[]) // TODO sécu !?
         .map(item => item.trim())
         .filter(item => !!item);
 }
@@ -56,7 +56,7 @@ export function insertMatchingList(downloadedFiles) {
     const h1 = getH1();
 
     const title = getTitle();
-    console.log(`Titre de la page courante : ${title}`);
+    console.log(`Titre de la page courante : ${title}`, lowerAndSplit(title));
     console.log(`Fichiers déjà téléchargés`, downloadedFiles);
     const matchingDownloadedFiles = matchDownloadedFiles(title, downloadedFiles)
     console.log(`Fichiers déjà téléchargés correspondant au titre`, matchingDownloadedFiles);
@@ -69,8 +69,9 @@ export function insertMatchingList(downloadedFiles) {
 // Auto-exécution uniquement en environnement réel (navigateur/Tampermonkey)
 // `module` n'existe pas dans le bundle IIFE final, mais existe sous Jest (CommonJS)
 if (typeof module === 'undefined') {
-    // TODO FIXME ce n'est pas suffisant : quand on fait un prompt, les sauts de ligne disparaissent
     const downloadedFilesRawList = getOrPromptString('downloadedFilesRawList', `Liste des fichiers déjà téléchargés`, () => new Error(`Liste vide`));
+    // TODO ajouter plutôt un bouton pour modifier, si besoin => puis faire un simple prompt au clic
+    // const downloadedFilesRawList = prompt(`Liste des fichiers déjà téléchargés sous forme de tableau de chaînes JSON`);
     const downloadedFiles = parseDownloadFiles(downloadedFilesRawList);
     insertMatchingList(downloadedFiles);
 }
