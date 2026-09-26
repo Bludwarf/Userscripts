@@ -6,6 +6,8 @@
 // @grant        GM_setValue
 // ==/UserScript==
 
+import stringComparison from "string-comparison";
+
 function getH1() {
     const h1List = document.getElementsByTagName('h1');
     if (h1List.length === 0) {
@@ -51,8 +53,23 @@ export function parseDownloadFiles(downloadedFilesRawList) {
         .filter(item => !!item);
 }
 
-export function matchDownloadedFiles(title, downloadedFiles) {
-    return downloadedFiles.filter(downloadedFile => match(title, downloadedFile));
+export function matchDownloadedFiles(title: string, downloadedFiles: string[]): string[] {
+    // return downloadedFiles.filter(downloadedFile => match(title, downloadedFile));
+    const downloadedFilenames = downloadedFiles.map(downloadedFile => {
+        const downloadedFileName = downloadedFile.substring(downloadedFile.lastIndexOf('/') + 1)
+        return downloadedFileName.substring(0, downloadedFileName.lastIndexOf('.'))
+    })
+    const cos = stringComparison.cosine;
+    const sortMatch = cos.sortMatch(title, downloadedFilenames);
+    console.log(sortMatch)
+    const ratingSum = sortMatch.reduce((pr, sm) => pr + sm.rating, 0);
+    const ratingAverage = ratingSum / sortMatch.length;
+    console.log(ratingAverage);
+    const sortAboveAverageIndices = sortMatch
+        .filter(m => m.rating >= ratingAverage)
+        .map(m => m.index)
+        .reverse();
+    return sortAboveAverageIndices.map(i => downloadedFiles[i]);
 }
 
 export function insertMatchingList(downloadedFiles) {
