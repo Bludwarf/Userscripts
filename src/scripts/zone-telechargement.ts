@@ -20,7 +20,7 @@ export function getTitle(h1 = getH1()) {
     return h1.textContent;
 }
 
-function lowerAndSplit(filename) {
+function lowerAndSplit(filename: string) {
     return filename
         .toLowerCase()
         .split(/[^A-Za-z]/).filter(part => !!part);
