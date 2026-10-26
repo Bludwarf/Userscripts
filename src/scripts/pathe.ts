@@ -5,6 +5,9 @@
 // @grant        GM_addStyle
 // ==/UserScript==
 
+// Les films sont chargés au démarrage
+// Les séances sont chargés (async) lorsqu'un film est visible
+
 const filmDivList = document.querySelectorAll('[class="tw:group"]');
 
 (async function main() {
