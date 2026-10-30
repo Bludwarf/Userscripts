@@ -6,19 +6,20 @@ import {
     insertMatchingList,
     matchDownloadedFiles,
     parseDownloadFiles,
-} from "../../src/scripts/zone-telechargement";
-import {loadPage} from "../utils/test-utils";
+} from "./zone-telechargement.user";
+import {loadPage} from "../lib/test-utils";
+import {describe, expect, test} from "vitest";
 
-function loadZTPage(page) {
-    loadPage('zone-telechargement', page);
+function loadZTPage(path: string) {
+    loadPage('zone-telechargement', path);
 }
 
 describe('Avatar : De feu et de cendres', () => {
-    const page = "Avatar De feu et de cendres.htm";
+    const path = "/Avatar De feu et de cendres";
     const title = 'Avatar : De feu et de cendres';
 
     test(`getTitle`, () => {
-        loadZTPage(page);
+        loadZTPage(path);
         const title = getTitle();
         expect(title).toBe('Avatar : De feu et de cendres');
     });
@@ -91,7 +92,7 @@ describe('Avatar : De feu et de cendres', () => {
     describe('insertMatchingList', () => {
 
         test(`Message si pas de match`, () => {
-            loadZTPage(page);
+            loadZTPage(path);
             insertMatchingList([`Films/Autres/Autre.film.mkv`]);
             const userscriptElement = document.getElementById('userscript');
             console.log(document.getElementsByTagName("h2").length)
@@ -100,7 +101,7 @@ describe('Avatar : De feu et de cendres', () => {
         });
 
         test(`Message si match`, () => {
-            loadZTPage(page);
+            loadZTPage(path);
             insertMatchingList([`Films/SF/Avatar/avatar.mp4`]);
             const userscriptElement = document.getElementById('userscript');
             console.log(document.getElementsByTagName("h2").length)

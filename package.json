@@ -1,18 +1,24 @@
 {
+    "engines": {
+        "node": "22"
+    },
+    "type": "module",
     "scripts": {
-        "test": "jest --coverage",
-        "build": "node esbuild.config.js",
-        "build:watch": "node esbuild.config.js --watch",
+        "test": "vitest run --coverage",
+        "build": "tsx esbuild.config.ts",
+        "build:watch": "tsx esbuild.config.ts --watch",
         "typecheck": "tsc --noEmit"
     },
     "devDependencies": {
         "@actions/github": "^9.1.1",
-        "@types/jest": "^30.0.0",
-        "@types/tampermonkey": "^5.5.0",
-        "esbuild": "^0.28.2",
-        "jest-environment-jsdom": "^30.5.2",
-        "jest-junit": "^17.0.0",
-        "ts-jest": "^29.4.14",
-        "typescript": "^5.9.3"
+        "@types/tampermonkey": "5",
+        "@vitest/coverage-v8": "5",
+        "chalk": "4",
+        "esbuild": "0.28",
+        "happy-dom": "^20.14.5",
+        "jquery": "3",
+        "tsx": "4",
+        "typescript": "5",
+        "vitest": "5"
     }
 }
