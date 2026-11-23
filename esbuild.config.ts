@@ -41,6 +41,8 @@ function renderBanner(name: string) {
     };
     const mergedHeader: Header = Object.assign({}, defaultHeader, sourceHeader);
 
+    const icon = sourceHeader.icon ?? `https://www.google.com/s2/favicons?sz=64&domain=${(getDomain(sourceHeader.match[0]))}`
+
     const url = `https://github.com/Bludwarf/Userscripts/releases/latest/download/${name}.user.js`;
     return [
         "// ==UserScript==",
@@ -48,7 +50,7 @@ function renderBanner(name: string) {
         "// @namespace    https://github.com/Bludwarf/Userscripts",
         `// @version      ${globalVersion}`,
         `// @description  ${sourceHeader.description}`,
-        `// @icon         ${sourceHeader.icon}`,
+        `// @icon         ${icon}`,
         ...(sourceHeader.grant || []).map(grant => `// @grant        ${grant}`),
         `// @author       ${mergedHeader.author}`,
         ...sourceHeader.match.map(match => `// @match        ${match}`),
@@ -57,6 +59,10 @@ function renderBanner(name: string) {
         ...unparsedSourceRawHeaderLine,
         "// ==/UserScript==",
     ].join(EOL);
+}
+
+function getDomain(url: string) {
+    return new URL(url).hostname;
 }
 
 function buildOptions(entryDir: string, name: string, options: Partial<BuildOptions> | null = {}): Partial<BuildOptions> {

@@ -64,6 +64,7 @@ export interface Header {
     /** optionnel : le nom du script, sans extension, par défaut */
     name?: string;
     description: string;
+    /** optionnel : l'icône du domaine connue par Google, par défaut */
     icon?: string;
     author?: string;
     /** optionnels : ajoutés automatiquement par le plugin "auto-grant" */
